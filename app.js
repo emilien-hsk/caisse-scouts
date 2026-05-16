@@ -19,8 +19,9 @@ const MENU = [
   {
     category: 'Vins',
     items: [
-      { id: 'roseV', name: 'Rosé (verre)',     price: 2.50 },
-      { id: 'roseB', name: 'Rosé (bouteille)', price: 15.00 }
+      { id: 'roseV',   name: 'Rosé (verre)',     price: 3.00 },
+      { id: 'roseB',   name: 'Rosé (bouteille)', price: 15.00 },
+      { id: 'sangria', name: 'Sangria',           price: 3.00 }
     ]
   }
 ];
@@ -100,6 +101,16 @@ const ICONS = {
     <rect x="24.5" y="33" width="3" height="11" rx="1" fill="#D1D5DB"/>
     <rect x="17" y="43" width="18" height="3.5" rx="1.75" fill="#D1D5DB"/>
     <path d="M17 8.5 L20.5 8.5 L20 28 L16.5 26 Z" fill="rgba(255,255,255,0.38)"/>
+  </svg>`,
+
+  sangria: `<svg width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+    <path d="M13 7 Q13 33 26 35 Q39 33 39 7 Z" fill="#FEE2E2" stroke="#FCA5A5" stroke-width="1.2"/>
+    <path d="M15 16 Q15.5 33 26 34.5 Q36.5 33 37 16 Z" fill="#DC2626" opacity="0.75"/>
+    <path d="M20 14 Q22 10 24 14" fill="none" stroke="#F97316" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M26 11 Q28 7 30 11" fill="none" stroke="#F97316" stroke-width="1.5" stroke-linecap="round"/>
+    <rect x="24.5" y="34" width="3" height="11" rx="1" fill="#D1D5DB"/>
+    <rect x="17" y="44" width="18" height="3.5" rx="1.75" fill="#D1D5DB"/>
+    <path d="M16 8.5 L19.5 8.5 L19 29 L15.5 27 Z" fill="rgba(255,255,255,0.35)"/>
   </svg>`,
 
   roseB: `<svg width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">

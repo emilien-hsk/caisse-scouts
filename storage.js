@@ -12,8 +12,9 @@ const MENU_PRICES = {
   jup:   2.50,
   blan:  3.50,
   stf:   4.00,
-  roseV: 2.50,
-  roseB: 15.00
+  roseV: 3.00,
+  roseB: 15.00,
+  sangria: 3.00
 };
 
 const MENU_NAMES = {
@@ -25,7 +26,8 @@ const MENU_NAMES = {
   blan:  'Blanche Rosée',
   stf:   'St-Feuillen',
   roseV: 'Rosé (verre)',
-  roseB: 'Rosé (bouteille)'
+  roseB: 'Rosé (bouteille)',
+  sangria: 'Sangria'
 };
 
 // Initialisation du client Supabase (window.supabase exposé par le CDN)
