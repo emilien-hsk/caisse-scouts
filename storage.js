@@ -37,11 +37,12 @@ const Storage = {
    * Insère une commande dans la table `orders`.
    * @param {Object} order  – { id: quantité, ... }
    */
-  async addOrder(order) {
+  async addOrder(order, discount = 0) {
     let total = 0;
     for (const [id, qty] of Object.entries(order)) {
       total += (MENU_PRICES[id] || 0) * qty;
     }
+    total = Math.max(0, total - discount);
 
     const { error } = await db.from('orders').insert({
       items: order,

@@ -368,6 +368,44 @@ body {
   min-height: 20px;
 }
 
+.btn-reduction {
+  width: 100%;
+  padding: 9px;
+  border-radius: 12px;
+  border: 1.5px dashed var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.12s;
+  text-align: center;
+}
+.btn-reduction:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+  background: #fff7f4;
+}
+.btn-reduction.active {
+  border-style: solid;
+  border-color: var(--orange);
+  background: #fff7f4;
+  color: var(--orange);
+}
+
+.reduction-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  padding: 2px 0;
+}
+.reduction-line span:first-child { color: var(--text-secondary); }
+.reduction-amount {
+  font-weight: 700;
+  color: var(--orange);
+}
+
 .btn-encaisser {
   background: var(--green);
   color: #fff;

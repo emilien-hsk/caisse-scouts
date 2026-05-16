@@ -117,6 +117,7 @@ const ICONS = {
 // ── État du panier ────────────────────────────────────────
 
 let cart = {};
+let reductionChef = false;
 
 function allItems() {
   return MENU.flatMap(c => c.items);
@@ -136,6 +137,14 @@ function getCartTotal() {
 
 function getTotalDrinks() {
   return Object.values(cart).reduce((a, b) => a + b, 0);
+}
+
+function getDiscountAmount() {
+  return reductionChef ? getTotalDrinks() * 0.50 : 0;
+}
+
+function getFinalTotal() {
+  return Math.max(0, getCartTotal() - getDiscountAmount());
 }
 
 function isCartEmpty() {
@@ -232,7 +241,21 @@ function renderOrder() {
     });
   }
 
-  const total      = getCartTotal();
+  // Réduction chef
+  const discountEl   = document.getElementById('reduction-line');
+  const discountLbl  = document.getElementById('reduction-label');
+  const discountAmt  = document.getElementById('reduction-amount');
+  const discount     = getDiscountAmount();
+
+  if (reductionChef && discount > 0) {
+    discountEl.style.display = 'flex';
+    discountLbl.textContent  = `Réduction (${getTotalDrinks()} × 0,50 €)`;
+    discountAmt.textContent  = '−' + formatPrice(discount);
+  } else {
+    discountEl.style.display = 'none';
+  }
+
+  const total      = getFinalTotal();
   const totalCases = getCases(total);
   orderTotal.textContent   = formatPrice(total);
   orderCasesEl.textContent = `${totalCases} case${totalCases !== 1 ? 's' : ''} × 0,50 €`;
@@ -284,13 +307,15 @@ async function encaisser() {
   btn.textContent = 'Enregistrement…';
 
   try {
-    await Storage.addOrder(cart);
+    await Storage.addOrder(cart, getDiscountAmount());
 
     // Flash de confirmation
     const overlay = document.getElementById('flash-overlay');
     overlay.classList.add('visible');
     setTimeout(() => overlay.classList.remove('visible'), 1300);
 
+    reductionChef = false;
+    document.getElementById('btn-reduction').classList.remove('active');
     clearCart();
     await renderStats();
   } catch (e) {
@@ -310,6 +335,11 @@ async function init() {
 
   document.getElementById('btn-encaisser').addEventListener('click', encaisser);
   document.getElementById('btn-annuler').addEventListener('click', clearCart);
+  document.getElementById('btn-reduction').addEventListener('click', () => {
+    reductionChef = !reductionChef;
+    document.getElementById('btn-reduction').classList.toggle('active', reductionChef);
+    renderOrder();
+  });
 }
 
 document.addEventListener('DOMContentLoaded', init);
