@@ -215,7 +215,7 @@ function renderPanel() {
 
   const resCartes  = cartesFor(r.id);
   const carteTot   = resCartes.reduce((s, c) => s + parseFloat(c.montant), 0);
-  const totalEnc   = (r.paye ? parseFloat(r.prix) : 0) + carteTot;
+  const totalEnc   = parseFloat(r.prix) + carteTot;
 
   panel.innerHTML = `
     <div class="panel-header">
