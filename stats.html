@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Statistiques — Scouts Écaussinnes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="stats-page">
+
+  <div class="stats-container">
+
+    <header class="stats-page-header">
+      <h1 class="stats-page-title">Récap de la soirée</h1>
+      <div class="stats-page-actions">
+        <button class="btn-reset" id="btn-reset">Réinitialiser</button>
+        <a href="index.html" class="btn-back">Retour à la caisse</a>
+      </div>
+    </header>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Chiffre d'affaires</div>
+        <div class="metric-value" id="metric-revenue">…</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Boissons vendues</div>
+        <div class="metric-value" id="metric-drinks">…</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Commandes</div>
+        <div class="metric-value" id="metric-orders">…</div>
+      </div>
+    </div>
+
+    <div class="stats-table-wrap">
+      <table class="stats-table">
+        <thead>
+          <tr>
+            <th class="th-name">Boisson</th>
+            <th class="th-bar">Ventes</th>
+            <th class="th-num">Quantité</th>
+            <th class="th-num">Revenu</th>
+          </tr>
+        </thead>
+        <tbody id="stats-body">
+          <tr><td colspan="4" class="empty-row">Chargement…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="config.js"></script>
+  <script src="storage.js"></script>
+  <script>
+    function fmt(amount) {
+      return amount.toFixed(2).replace('.', ',') + ' €';
+    }
+
+    async function render() {
+      const tbody = document.getElementById('stats-body');
+      try {
+        const stats = await Storage.export();
+
+        document.getElementById('metric-revenue').textContent = fmt(stats.totalRevenue);
+        document.getElementById('metric-drinks').textContent  = stats.totalDrinks;
+        document.getElementById('metric-orders').textContent  = stats.totalOrders;
+
+        if (stats.byItem.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="4" class="empty-row">Aucune vente enregistrée</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = stats.byItem.map(item => {
+          const revenueStr = item.price === 0 ? '&mdash;' : fmt(item.revenue);
+          return `
+            <tr>
+              <td class="td-name">${item.name}</td>
+              <td class="td-bar">
+                <div class="progress-track">
+                  <div class="progress-fill" style="width:${item.pct}%"></div>
+                </div>
+              </td>
+              <td class="td-num">${item.qty}</td>
+              <td class="td-num td-rev">${revenueStr}</td>
+            </tr>
+          `;
+        }).join('');
+
+      } catch (e) {
+        console.error('Stats render :', e);
+        document.getElementById('metric-revenue').textContent = '—';
+        document.getElementById('metric-drinks').textContent  = '—';
+        document.getElementById('metric-orders').textContent  = '—';
+        tbody.innerHTML = '<tr><td colspan="4" class="empty-row">Erreur de connexion à la base de données</td></tr>';
+      }
+    }
+
+    document.getElementById('btn-reset').addEventListener('click', async () => {
+      try {
+        if (await Storage.reset()) await render();
+      } catch (e) {
+        alert('Erreur lors de la réinitialisation.');
+        console.error(e);
+      }
+    });
+
+    render();
+  </script>
+</body>
+</html>

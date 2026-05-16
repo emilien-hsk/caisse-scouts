@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Caisse — Scouts Écaussinnes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- Colonne gauche -->
+    <div class="col-left">
+
+      <header class="stats-bar">
+        <div class="stats-item">
+          <span class="stats-label">Boissons vendues</span>
+          <span class="stats-value" id="total-drinks">…</span>
+        </div>
+        <div class="stats-item">
+          <span class="stats-label">Chiffre d'affaires</span>
+          <span class="stats-value" id="total-revenue">…</span>
+        </div>
+        <a href="stats.html" class="btn-stats">Stats</a>
+      </header>
+
+      <div class="menu-grid" id="menu-grid"></div>
+
+    </div>
+
+    <!-- Colonne droite -->
+    <div class="col-right">
+      <div class="order-panel">
+
+        <h2 class="order-title">Commande en cours</h2>
+
+        <div class="order-items" id="order-items">
+          <p class="order-empty">Aucun article sélectionné</p>
+        </div>
+
+        <div class="order-footer">
+          <div class="order-total-row">
+            <span class="order-total-label">Total</span>
+            <span class="order-total-amount" id="order-total">0,00 &euro;</span>
+          </div>
+          <div class="order-cases-row">
+            <span id="order-cases">0 case × 0,50 &euro;</span>
+          </div>
+          <button class="btn-encaisser" id="btn-encaisser" disabled>Encaisser</button>
+          <button class="btn-annuler"   id="btn-annuler">Annuler la commande</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Flash de confirmation -->
+  <div class="flash-overlay" id="flash-overlay" aria-live="polite">
+    <div class="flash-message">Encaissé !</div>
+  </div>
+
+  <!-- Supabase CDN, puis config locale, puis logique -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="config.js"></script>
+  <script src="storage.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
