@@ -308,7 +308,6 @@ function attachCarteEvents(panel, reservationId) {
 
   panel.querySelectorAll('.btn-del-carte').forEach(btn => {
     btn.addEventListener('click', async () => {
-      if (!confirm('Supprimer cette carte ?')) return;
       btn.disabled = true;
       try { await deleteCarte(btn.dataset.id); }
       catch (err) { alert('Erreur : ' + err.message); btn.disabled = false; }
